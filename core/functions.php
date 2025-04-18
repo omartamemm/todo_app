@@ -1,21 +1,22 @@
 <?php
-include __DIR__."/../database/info.php";
+include __DIR__ . "/../database/info.php";
 
-function show_posts(){
+function show_posts()
+{
 
     $sql = "SELECT * FROM `posts`";
-    $reslut=mysqli_query($GLOBALS['conn'],$sql);
+    $reslut = mysqli_query($GLOBALS['conn'], $sql);
 
     if (mysqli_num_rows($reslut)) {
-        while ( $row=mysqli_fetch_assoc($reslut)  ) {
-            
+        while ($row = mysqli_fetch_assoc($reslut)) {
+
             echo "
             <div class='card mb-2'>
             <div class='card-body'>
                 <h5 class='card-title'>{$row['title']}</h5>
                 <p class='card-text'>{$row['content']}</p>
 
-                <a href='' class='btn btn-warning btn-sm'>EDIT</a>
+                <a href='edit.php?post_id={$row['id']}' class='btn btn-warning btn-sm'>EDIT</a>
 
                 <a href='handel/delete_post.php?user_id={$row['user_id']}' class='btn btn-danger btn-sm'>DELETE</a>
             </div>
@@ -24,23 +25,47 @@ function show_posts(){
             
             
             ";
-            
+
         }
 
     }
 
-    
+
 }
 
-function delete_post($id){
+function delete_post($id)
+{
     $sql = "DELETE FROM `posts` WHERE `user_id` = {$id}";
-    $reslut=mysqli_query($GLOBALS['conn'],$sql);
+    $reslut = mysqli_query($GLOBALS['conn'], $sql);
     if ($reslut) {
         header("location: ../home.php");
         exit;
-    }else{
+    } else {
         echo "error";
     }
 }
 
 
+function fetch_post($id)
+{
+    $sql = "SELECT * FROM `posts` WHERE id ='$id'";
+    $result = mysqli_query($GLOBALS['conn'], $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row;
+
+
+}
+
+function update_post($post_id, $title, $content)
+{
+    $sql = "UPDATE `posts` SET title ='$title' ,content ='$content'  WHERE id='$post_id' ;";
+    $res = mysqli_query($GLOBALS['conn'], $sql);
+    if ($res) {
+        return true;
+        
+    } else {
+        echo false;
+    }
+
+
+}
