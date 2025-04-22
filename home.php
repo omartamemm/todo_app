@@ -1,6 +1,10 @@
 <?php
 include "database/info.php";
 include "core/functions.php";
+session_start();
+if(isset($_SESSION['message'])){
+  show_message();
+}
 
 ?>
 <!DOCTYPE html>
@@ -63,7 +67,7 @@ include "core/functions.php";
             <div class="form-group">
                 <input type="text" name="content">
             </div>
-            <input type="submit" value="ADD">
+            <input class="btn btn-primary" type="submit" value="ADD">
 
         </form>
 
@@ -73,12 +77,7 @@ include "core/functions.php";
             echo show_posts();
 
             ?>
-            <div class="card mb-2">
-                <div class="card-body">
-                    <h5 class="card-title">Sample Task 1</h5>
-                    <p class="card-text">This is the content for task 1.</p>
-                </div>
-            </div>
+           
 
 
         </div>

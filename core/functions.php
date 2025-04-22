@@ -1,4 +1,5 @@
 <?php
+session_start();
 include __DIR__ . "/../database/info.php";
 
 function show_posts()
@@ -15,6 +16,7 @@ function show_posts()
             <div class='card-body'>
                 <h5 class='card-title'>{$row['title']}</h5>
                 <p class='card-text'>{$row['content']}</p>
+                <p class='card-text '><small class='text-danger'>Created at  : {$row['create_at']}</small></p>
 
                 <a href='edit.php?post_id={$row['id']}' class='btn btn-warning btn-sm'>EDIT</a>
 
@@ -58,7 +60,7 @@ function fetch_post($id)
 
 function update_post($post_id, $title, $content)
 {
-    $sql = "UPDATE `posts` SET title ='$title' ,content ='$content'  WHERE id='$post_id' ;";
+    $sql = "UPDATE `posts` SET title ='$title' ,content ='$content', create_at=now()  WHERE id='$post_id' ;";
     $res = mysqli_query($GLOBALS['conn'], $sql);
     if ($res) {
         return true;
@@ -68,4 +70,24 @@ function update_post($post_id, $title, $content)
     }
 
 
+}
+
+
+function message($type,$text){
+
+   $_SESSION['message']=[
+    'type'=>$type,
+    'text'=>$text
+   ];
+
+}
+
+
+function show_message(){
+    if(isset($_SESSION['message'])){
+        $type=$_SESSION['message']['type'];
+        $text=$_SESSION['message']['text'];
+        echo "<div class='alert alert-$type'> $text</div>";
+        unset($_SESSION['message']);
+    }
 }

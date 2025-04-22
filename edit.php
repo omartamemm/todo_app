@@ -6,7 +6,7 @@ if (isset($_GET['post_id'])) {
     $post_id=$_GET['post_id'];
     // echo $post_id;
     $row= fetch_post($post_id);
-    print_r($row);
+    // print_r(value: $row);
  
 
 }
